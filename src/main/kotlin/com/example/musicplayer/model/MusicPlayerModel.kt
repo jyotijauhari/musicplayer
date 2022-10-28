@@ -9,7 +9,7 @@ import java.util.*
 import javax.persistence.*
 
 @Entity
-@Table(name = "tb_player")
+@Table(name = "songs")
 class MusicPlayerModel(
     @Id
     val id: Int,

@@ -14,6 +14,9 @@ class MusicPlayerController(val service: MusicPlayerService) {
     @GetMapping("/{id}")
     fun getSong(@PathVariable id: Int) = service.getById(id)
 
+    @GetMapping("/{id}/recommendation")
+    fun getRecommendation(@PathVariable id:Int) = service.getRecommendationById(id)
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun saveSong(@RequestBody song: MusicPlayerModel): MusicPlayerModel = service.create(song)
