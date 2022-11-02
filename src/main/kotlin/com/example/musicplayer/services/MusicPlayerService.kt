@@ -14,10 +14,19 @@ class MusicPlayerService(val repository: MusicPlayerRepository) {
     fun getById(id: Int): MusicPlayerModel = repository.findByIdOrNull(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
 
     fun create(song: MusicPlayerModel): MusicPlayerModel = repository.save(song)
-    fun getRecommendationById(id: Int): List<MusicPlayerModel?>? {
+
+    fun getRecommendationById(id: Int): List<MusicPlayerModel> {
         val currentSong = repository.findByIdOrNull(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
-        println(currentSong.language + " " + currentSong.composer + " " + currentSong.releaseDate)
-        return repository.findAllSongsWithSameComposerAndLanguage(currentSong.composer, currentSong.language)
-//        return "hello";
+
+        val allSongsWithSameComposerAndLanguage = repository.findAllSongsWithSameComposerAndLanguage(id, currentSong.composer, currentSong.language);
+        val allSongsWithSameComposer = repository.findAllSongsWithSameComposer(id, currentSong.composer);
+        val allSongsWithSameLanguage = repository.findAllSongsWithSameLanguage(id, currentSong.language);
+
+        val tempList = allSongsWithSameComposerAndLanguage.union(allSongsWithSameComposer);
+        val finalList = tempList.union(allSongsWithSameLanguage);
+
+        return finalList.toList();
     }
+
+
 }
