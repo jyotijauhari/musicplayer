@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/songs")
 class MusicPlayerController(val service: MusicPlayerService) {
-    @GetMapping("/all")
+
+    @GetMapping
     fun getAllSongs() = service.getAll()
 
     @GetMapping("/{id}")
